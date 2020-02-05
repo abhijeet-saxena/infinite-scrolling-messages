@@ -198,3 +198,36 @@
     width: 600px;
   }
 }
+
+/* Snackbar Styles */
+.snackbar {
+  width: 80vw;
+  max-width: 335px;
+  height: 48px;
+  background: #323232;
+  color: #f6f6f6;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+
+  position: fixed;
+  bottom: -10px;
+  left: 50%;
+  transition: all 250ms ease-in-out;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.snackbar .action {
+  color: #6cdd18;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.snackbar.show {
+  opacity: 1;
+  bottom: 1rem;
+}

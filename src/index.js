@@ -10,7 +10,10 @@ window.addEventListener("load", async () => {
   const loader = document.getElementById("loader");
   const wrapper = document.querySelector(".card-wrapper");
   const content = document.querySelector(".content");
+  const snackbar = document.querySelector(".snackbar");
+
   let lastDismissedCardID = "0";
+  let snackbarTimerID = "0";
 
   // This all is needed for infinite scrolling
   const options = {
@@ -98,15 +101,38 @@ window.addEventListener("load", async () => {
         setTimeout(() => {
           clicked_card.classList.add("dismissed");
           lastDismissedCardID = clicked_card.id;
+          snackbar.classList.add("show");
         }, 200);
 
-        setTimeout(() => {
-          console.log(lastDismissedCardID);
-        }, 2000);
+        // Auto dismiss snackbar after 3seconds
+        snackbarTimerID = setTimeout(() => {
+          snackbar.classList.remove("show");
+          lastDismissedCardID = "0";
+        }, 3000);
       } else {
         // Swiped in left direction — reset card position to left edge
         clicked_card.style.transform = "translateX(0px)";
       }
+    },
+    false
+  );
+
+  // Handle Undo click
+  document.querySelector(".action").addEventListener(
+    "click",
+    () => {
+      snackbar.classList.remove("show");
+
+      if (snackbarTimerID) {
+        clearTimeout(snackbarTimerID);
+      }
+
+      const lastDismisseddMessage = document.getElementById(
+        lastDismissedCardID
+      );
+
+      lastDismisseddMessage.classList.remove("dismissed");
+      lastDismisseddMessage.style.transform = "translateX(0px)";
     },
     false
   );
