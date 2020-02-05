@@ -1,3 +1,193 @@
-body {
-  color: lightseagreen;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+.status {
+  height: 24px;
+  background: #522e92;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.status svg,
+.status .time {
+  margin: 0 4px;
+}
+
+.status .time {
+  margin: 0 8px 0 0;
+}
+
+.header {
+  height: 56px;
+  display: flex;
+  padding: 0 1rem;
+  align-items: center;
+  background: #673ab7;
+  color: #f7f5fb;
+}
+
+.header svg {
+  margin-right: 2rem;
+}
+
+.header h2 {
+  font-weight: normal;
+}
+
+.time {
+  color: #beb1d6;
+}
+
+.fixed-body {
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.card {
+  padding: 1rem;
+  display: flex;
+  width: calc(100vw - 2.5rem);
+  flex-direction: column;
+  border-radius: 3px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.16);
+  transition: all 200ms ease-in;
+}
+
+.card .lead {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.avatar {
+  border-radius: 50%;
+  min-width: 40px;
+  min-height: 40px;
+  margin-right: 1rem;
+  position: relative;
+}
+
+.avatar::after {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 50px;
+  height: 50px;
+  background: white;
+  background-image: url(noimage.png);
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  z-index: 1;
+  content: "";
+}
+
+.author-data {
+  height: 40px;
+  width: 100%;
+  flex-basis: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author-data h4 {
+  padding-bottom: 0.1rem;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.author-data span {
+  color: #727272;
+  font-size: 0.8rem;
+}
+
+.card .message {
+  line-height: 1.25rem;
+}
+
+.card.dismissing {
+  opacity: 0.5;
+  transform: translateX(100vw);
+}
+
+.card.dismissed {
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#loader {
+  margin: 0 auto 1rem auto;
+  width: 32px;
+  opacity: 0;
+}
+
+#loader.active {
+  opacity: 1;
+}
+
+#loader.active .spinner {
+  animation: rotator 1.4s linear infinite;
+}
+
+#loader.active .path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}
+
+@media only screen and (min-width: 968px) {
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+
+  .card {
+    width: 600px;
+  }
 }
