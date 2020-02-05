@@ -1,12 +1,15 @@
+import { getRandomTimestamp } from "./scripts/helpers";
+
 //Global Variables
 let token = "";
-let time = document.querySelector(".time");
-let loader = document.getElementById("loader");
-let wrapper = document.querySelector(".card-wrapper");
+const time = document.querySelector(".time");
+const loader = document.getElementById("loader");
+const wrapper = document.querySelector(".card-wrapper");
+const content = document.querySelector(".content");
 
 //This all is needed for infinite scrolling
-let options = {
-  root: document.querySelector(".fixed-body"),
+const options = {
+  root: content,
   rootMargin: "400px 0px",
   threshold: 0
 };
@@ -35,12 +38,10 @@ let generateCard = messageList => {
     let card = `
 <div class="card" id="${id}">
   <div class="lead">
-    <img class="avatar" width="40" height="40" src="http://message-list.appspot.com${photoUrl}"/>      
+    <img class="avatar" width="40" alt="${name} Avatar" height="40" src="https://message-list.appspot.com${photoUrl}"/>      
     <div class="author-data">
       <h4>${name}</h4>
-      <span> ${Math.ceil(Math.random() * 30)} ${
-      Math.floor(Math.random() * 2) ? "hours" : "minutes"
-    } ago</span>
+      <span> ${getRandomTimestamp()} </span>
     </div>
   </div>
   <div class="message">
@@ -70,16 +71,18 @@ wrapper.addEventListener(
   "click",
   event => {
     let clicked_card = event.target.closest(".card");
-    clicked_card.classList.add("dismissing");
+    if (clicked_card) {
+      clicked_card.classList.add("dismissing");
 
-    setTimeout(() => {
-      clicked_card.classList.add("dismissed");
-    }, 210);
+      setTimeout(() => {
+        clicked_card.classList.add("dismissed");
+      }, 210);
 
-    setTimeout(() => {
-      clicked_card.classList.remove("dismissed");
-      clicked_card.classList.remove("dismissing");
-    }, 1000);
+      setTimeout(() => {
+        clicked_card.classList.remove("dismissed");
+        clicked_card.classList.remove("dismissing");
+      }, 1000);
+    }
   },
   false
 );
