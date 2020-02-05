@@ -4,6 +4,7 @@ import {
 } from "./scripts/helpers";
 
 window.addEventListener("load", async () => {
+  setTimeInStatusBar();
   // Global Variables
   let token = "";
   const loader = document.getElementById("loader");
@@ -66,7 +67,7 @@ window.addEventListener("load", async () => {
       // Set transition duration to 0ms for instant response on swiping
       clicked_card.style.transitionDuration = "0ms";
 
-      if (displacementX > 0 && Math.abs(displacementY) < 100) {
+      if (displacementX > 0 && Math.abs(displacementY) < 50) {
         // Swiped in right direction — add transition and translateX card by the displacementX
         if (!clicked_card.classList.contains("dismissing")) {
           clicked_card.closest(".card").classList.add("dismissing");
@@ -90,9 +91,7 @@ window.addEventListener("load", async () => {
       clicked_card.style.transitionDuration = "200ms";
 
       const displacementX = event.changedTouches[0].clientX - anchorX;
-      const displacementY = event.changedTouches[0].clientX - anchorY;
-
-      if (displacementX > 125 && displacementY < 100) {
+      if (displacementX > 100) {
         clicked_card.style.transform = "translateX(100vw)";
 
         // Hide the card after swiping is complete
