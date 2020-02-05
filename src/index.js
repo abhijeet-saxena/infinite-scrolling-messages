@@ -35,7 +35,7 @@ let generateCard = messageList => {
     let card = `
 <div class="card" id="${id}">
   <div class="lead">
-    <img class="avatar" width="40" height="40" src="http://mssage-list.appspot.com${photoUrl}"/>      
+    <img class="avatar" width="40" height="40" src="http://message-list.appspot.com${photoUrl}"/>      
     <div class="author-data">
       <h4>${name}</h4>
       <span> ${Math.ceil(Math.random() * 30)} ${
