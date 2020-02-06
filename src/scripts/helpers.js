@@ -36,7 +36,8 @@ export const generateMessageCardsHTML = messageList => {
         <img class="avatar" width="40" alt="${name} Avatar" height="40" src="https://message-list.appspot.com${photoUrl}"/>      
         <div class="author-data">
           <h4>${name}</h4>
-          <span> ${getRandomTimestamp()} </span>
+          <span class="timestamp"> ${getRandomTimestamp()} </span>
+          <svg class="dismiss" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path class="dismiss" stroke="#7d7d7d" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> 
         </div>
       </div>
       <p class="message">

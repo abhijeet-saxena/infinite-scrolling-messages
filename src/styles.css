@@ -122,6 +122,7 @@ main {
   height: 40px;
   width: 100%;
   flex-basis: fit-content;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -134,10 +135,14 @@ main {
   font-weight: 500;
 }
 
-.author-data span {
+.author-data .timestamp {
   color: #727272;
   font-size: 0.8rem;
   font-weight: 100;
+}
+
+.author-data svg {
+  display: none;
 }
 
 .card .message {
@@ -204,22 +209,6 @@ main {
   }
 }
 
-/* Desktop Responsiveness */
-@media only screen and (min-width: 968px) {
-  .card-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    margin: 0 auto;
-  }
-
-  .card {
-    width: 600px;
-  }
-}
-
 /* Snackbar Styles */
 .snackbar {
   width: 344px;
@@ -237,7 +226,7 @@ main {
   bottom: -10px;
   left: 50%;
   transition: all 250ms ease-in-out;
-  transform: scale(0) translateX(-50%);
+  transform: translateX(-50%);
   opacity: 0;
   font-weight: 100;
 }
@@ -252,5 +241,31 @@ main {
 .snackbar.show {
   opacity: 1;
   bottom: 1rem;
-  transform: scale(1) translateX(-50%);
+  transform: translateX(-50%);
+}
+
+/* Desktop Responsiveness */
+@media only screen and (min-width: 968px) {
+  .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+
+  .card {
+    width: 600px;
+  }
+
+  .author-data svg {
+    display: block;
+    color: #727272;
+    font-size: 0.8rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+  }
 }

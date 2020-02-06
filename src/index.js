@@ -124,6 +124,32 @@ wrapper.addEventListener(
   false
 );
 
+// Event Handler to dismiss in Desktop view
+wrapper.addEventListener(
+  "click",
+  event => {
+    if (event.target.classList.contains("dismiss")) {
+      const clicked_card = event.target.closest(".card");
+      clicked_card.style.transform = "translateX(100vw)";
+
+      // Hide the card after swiping is complete and trigger snackbar
+      setTimeout(() => {
+        clicked_card.classList.add("dismissed");
+        lastDismissedCardID = clicked_card.id;
+        snackbar.classList.add("show");
+      }, 200);
+
+      // Auto dismiss snackbar after 3 seconds
+      snackbarTimerID = setTimeout(() => {
+        snackbar.classList.remove("show");
+        wrapper.removeChild(clicked_card);
+        lastDismissedCardID = null;
+      }, 3000);
+    }
+  },
+  false
+);
+
 // Handle Undo click
 document.querySelector(".action").addEventListener(
   "click",
