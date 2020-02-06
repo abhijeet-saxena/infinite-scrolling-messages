@@ -1,3 +1,4 @@
+// Importing helper functions
 import {
   setTimeInStatusBar,
   generateMessageCardsHTML
@@ -18,7 +19,7 @@ let snackbarTimerID = null;
 // This all is needed for infinite scrolling
 const options = {
   root: null,
-  rootMargin: "400px 0px",
+  rootMargin: "400px 0px", // Trigger even before last element enters screen
   threshold: 0
 };
 
@@ -35,6 +36,7 @@ const observer = new IntersectionObserver(entries => {
   });
 }, options);
 
+// This function hits the API, render messages and returns the next pageToken
 const getMessagesFromServer = () => {
   return fetch(`https://message-list.appspot.com/messages?pageToken=${token}`)
     .then(res => res.json())
@@ -50,6 +52,7 @@ const getMessagesFromServer = () => {
 let anchorX = 0; // Used to store the startX of touch point
 let anchorY = 0; // Used to store the startY of touch point
 
+// Detect Touch Start — Set starting anchor points
 wrapper.addEventListener(
   "touchstart",
   event => {
@@ -59,6 +62,7 @@ wrapper.addEventListener(
   false
 );
 
+// Detect Touch Move — Animate the card
 wrapper.addEventListener(
   "touchmove",
   event => {
@@ -83,6 +87,7 @@ wrapper.addEventListener(
   false
 );
 
+// Detect Touch End — Complete transition
 wrapper.addEventListener(
   "touchend",
   event => {
@@ -98,7 +103,7 @@ wrapper.addEventListener(
     if (displacementX > 100) {
       clicked_card.style.transform = "translateX(100vw)";
 
-      // Hide the card after swiping is complete
+      // Hide the card after swiping is complete and trigger snackbar
       setTimeout(() => {
         clicked_card.classList.add("dismissed");
         lastDismissedCardID = clicked_card.id;
@@ -132,6 +137,7 @@ document.querySelector(".action").addEventListener(
         lastDismissedCardID
       );
 
+      //Bring back dismissed card in viewport
       lastDismisseddMessage.classList.remove("dismissed");
       lastDismisseddMessage.style.transitionDuration = "";
       lastDismisseddMessage.style.transform = "";
