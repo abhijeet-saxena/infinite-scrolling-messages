@@ -26,7 +26,7 @@
   margin: 0 8px 0 0;
 }
 
-.header {
+header {
   height: 56px;
   display: flex;
   padding: 0 1rem;
@@ -35,11 +35,11 @@
   color: #f7f5fb;
 }
 
-.header svg {
+header svg {
   margin-right: 2rem;
 }
 
-.header h2 {
+header h2 {
   font-weight: normal;
 }
 
@@ -47,7 +47,7 @@
   color: #beb1d6;
 }
 
-.content {
+main {
   height: calc(100vh - 80px);
   overflow-y: scroll;
   background: #eeeeee;
@@ -71,8 +71,10 @@
   flex-direction: column;
   border-radius: 3px;
   margin-bottom: 0.75rem;
-  box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.16);
-  transition-duration: 0ms;
+  box-shadow: 0 -4px 5px -5px rgba(0, 0, 0, 0.3),
+    2px 0 5px -4px rgba(0, 0, 0, 0.3), 0 6px 5px -5px rgba(0, 0, 0, 0.3),
+    -5px 0 5px -5px rgba(0, 0, 0, 0.3);
+  transition-duration: 200ms;
   transition-timing-function: linear;
 }
 
@@ -128,16 +130,19 @@
 .author-data h4 {
   padding-bottom: 0.1rem;
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 500;
 }
 
 .author-data span {
   color: #727272;
   font-size: 0.8rem;
+  font-weight: 100;
 }
 
 .card .message {
   line-height: 1.25rem;
+  font-weight: 100;
+  font-size: 0.9rem;
 }
 
 #loader {
@@ -201,23 +206,24 @@
 
 /* Snackbar Styles */
 .snackbar {
-  width: 80vw;
-  max-width: 335px;
+  width: 344px;
   height: 48px;
   background: #323232;
   color: #f6f6f6;
-  border-radius: 5px;
+  box-shadow: 0 0 3px 0px #323232;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 
   position: fixed;
   bottom: -10px;
   left: 50%;
   transition: all 250ms ease-in-out;
-  transform: translateX(-50%);
+  transform: scale(0) translateX(-50%);
   opacity: 0;
+  font-weight: 100;
 }
 
 .snackbar .action {
@@ -230,4 +236,5 @@
 .snackbar.show {
   opacity: 1;
   bottom: 1rem;
+  transform: scale(1) translateX(-50%);
 }

@@ -3,140 +3,142 @@ import {
   generateMessageCardsHTML
 } from "./scripts/helpers";
 
-window.addEventListener("load", async () => {
-  setTimeInStatusBar();
-  // Global Variables
-  let token = "";
-  const loader = document.getElementById("loader");
-  const wrapper = document.querySelector(".card-wrapper");
-  const content = document.querySelector(".content");
-  const snackbar = document.querySelector(".snackbar");
+// This function simply updates the timestamp in status bar
+setTimeInStatusBar();
 
-  let lastDismissedCardID = "0";
-  let snackbarTimerID = "0";
+// Global Variables
+let token = "";
+const loader = document.getElementById("loader");
+const wrapper = document.querySelector(".card-wrapper");
+const snackbar = document.querySelector(".snackbar");
 
-  // This all is needed for infinite scrolling
-  const options = {
-    root: content,
-    rootMargin: "400px 0px",
-    threshold: 0
-  };
+let lastDismissedCardID = null;
+let snackbarTimerID = null;
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(async entry => {
-      // This simply updates the timestamp in status bar
-      setTimeInStatusBar();
+// This all is needed for infinite scrolling
+const options = {
+  root: null,
+  rootMargin: "400px 0px",
+  threshold: 0
+};
 
-      // If loader is close to viewport, show loading spinner and load the next batch of messages
-      if (entry.isIntersecting) {
-        loader.classList.toggle("active");
-        token = await getMessagesFromServer();
-        loader.classList.toggle("active");
-      }
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(async entry => {
+    setTimeInStatusBar();
+
+    // If loader is close to viewport, show loading spinner and load the next batch of messages
+    if (entry.isIntersecting) {
+      loader.classList.toggle("active");
+      token = await getMessagesFromServer();
+      loader.classList.toggle("active");
+    }
+  });
+}, options);
+
+const getMessagesFromServer = () => {
+  return fetch(`https://message-list.appspot.com/messages?pageToken=${token}`)
+    .then(res => res.json())
+    .then(res => {
+      wrapper.innerHTML += generateMessageCardsHTML(res.messages);
+
+      // Attach observer for the first time load only
+      if (!token) observer.observe(loader);
+      return res.pageToken;
     });
-  }, options);
+};
 
-  const getMessagesFromServer = () => {
-    return fetch(`https://message-list.appspot.com/messages?pageToken=${token}`)
-      .then(res => res.json())
-      .then(res => {
-        wrapper.innerHTML += generateMessageCardsHTML(res.messages);
+let anchorX = 0; // Used to store the startX of touch point
+let anchorY = 0; // Used to store the startY of touch point
 
-        // Attach observer for the first time load only
-        if (!token) observer.observe(loader);
-        return res.pageToken;
-      });
-  };
+wrapper.addEventListener(
+  "touchstart",
+  event => {
+    anchorX = event.changedTouches[0].clientX;
+    anchorY = event.changedTouches[0].clientY;
+  },
+  false
+);
 
-  let anchorX = 0; // Used to store the startX of touch point
-  let anchorY = 0; // Used to store the startY of touch point
+wrapper.addEventListener(
+  "touchmove",
+  event => {
+    const clicked_card = event.target.closest(".card");
+    const displacementX = event.changedTouches[0].clientX - anchorX;
+    const displacementY = event.changedTouches[0].clientY - anchorY;
 
-  wrapper.addEventListener(
-    "touchstart",
-    event => {
-      anchorX = event.changedTouches[0].clientX;
-      anchorY = event.changedTouches[0].clientY;
-    },
-    false
-  );
+    // Set transition duration to 0ms for instant response on swiping
+    clicked_card.style.transitionDuration = "0ms";
 
-  wrapper.addEventListener(
-    "touchmove",
-    event => {
-      const clicked_card = event.target.closest(".card");
-      const displacementX = event.changedTouches[0].clientX - anchorX;
-      const displacementY = event.changedTouches[0].clientY - anchorY;
-
-      // Set transition duration to 0ms for instant response on swiping
-      clicked_card.style.transitionDuration = "0ms";
-
-      if (displacementX > 0 && Math.abs(displacementY) < 50) {
-        // Swiped in right direction — add transition and translateX card by the displacementX
-        if (!clicked_card.classList.contains("dismissing")) {
-          clicked_card.closest(".card").classList.add("dismissing");
-        }
-        clicked_card.style.transform = `translateX(${displacementX}px)`;
-      } else {
-        // Swiped in left direction — reset card position to left edge
-        clicked_card.style.transform = "translateX(0px)";
+    if (displacementX > 0 && Math.abs(displacementY) < 50) {
+      // Swiped in right direction — add transition and translateX card by the displacementX
+      if (!clicked_card.classList.contains("dismissing")) {
+        clicked_card.closest(".card").classList.add("dismissing");
       }
-    },
-    false
-  );
+      clicked_card.style.transform = `translateX(${displacementX}px)`;
+    } else {
+      // Swiped in left direction — reset card position to left edge
+      clicked_card.style.transform = "translateX(0px)";
+    }
+  },
+  false
+);
 
-  wrapper.addEventListener(
-    "touchend",
-    event => {
-      const clicked_card = event.target.closest(".card");
-      clicked_card.classList.remove("dismissing");
+wrapper.addEventListener(
+  "touchend",
+  event => {
+    const clicked_card = event.target.closest(".card");
+    clicked_card.classList.remove("dismissing");
 
-      // Set transition duration to 200ms for smooth dismissal transition
-      clicked_card.style.transitionDuration = "200ms";
+    // Set transition duration to 200ms for smooth dismissal transition
+    clicked_card.style.transitionDuration = "200ms";
 
-      const displacementX = event.changedTouches[0].clientX - anchorX;
-      if (displacementX > 100) {
-        clicked_card.style.transform = "translateX(100vw)";
+    const displacementX = event.changedTouches[0].clientX - anchorX;
 
-        // Hide the card after swiping is complete
-        setTimeout(() => {
-          clicked_card.classList.add("dismissed");
-          lastDismissedCardID = clicked_card.id;
-          snackbar.classList.add("show");
-        }, 200);
+    // User must have swiped atleast 100px to prevent accidental swipes
+    if (displacementX > 100) {
+      clicked_card.style.transform = "translateX(100vw)";
 
-        // Auto dismiss snackbar after 3seconds
-        snackbarTimerID = setTimeout(() => {
-          snackbar.classList.remove("show");
-          lastDismissedCardID = "0";
-        }, 3000);
-      } else {
-        // Swiped in left direction — reset card position to left edge
-        clicked_card.style.transform = "translateX(0px)";
-      }
-    },
-    false
-  );
+      // Hide the card after swiping is complete
+      setTimeout(() => {
+        clicked_card.classList.add("dismissed");
+        lastDismissedCardID = clicked_card.id;
+        snackbar.classList.add("show");
+      }, 200);
 
-  // Handle Undo click
-  document.querySelector(".action").addEventListener(
-    "click",
-    () => {
-      snackbar.classList.remove("show");
+      // Auto dismiss snackbar after 3 seconds
+      snackbarTimerID = setTimeout(() => {
+        snackbar.classList.remove("show");
+        wrapper.removeChild(clicked_card);
+        lastDismissedCardID = null;
+      }, 3000);
+    } else {
+      // Swiped in left direction — reset card position to left edge
+      clicked_card.style.transform = "translateX(0px)";
+    }
+  },
+  false
+);
 
-      if (snackbarTimerID) {
-        clearTimeout(snackbarTimerID);
-      }
+// Handle Undo click
+document.querySelector(".action").addEventListener(
+  "click",
+  () => {
+    snackbar.classList.remove("show");
 
+    if (snackbarTimerID) clearTimeout(snackbarTimerID);
+
+    if (lastDismissedCardID) {
       const lastDismisseddMessage = document.getElementById(
         lastDismissedCardID
       );
 
       lastDismisseddMessage.classList.remove("dismissed");
-      lastDismisseddMessage.style.transform = "translateX(0px)";
-    },
-    false
-  );
+      lastDismisseddMessage.style.transitionDuration = "";
+      lastDismisseddMessage.style.transform = "";
+    }
+  },
+  false
+);
 
-  // APP INITIAIZATION
-  token = await getMessagesFromServer();
-});
+// APP INITIAIZATION
+getMessagesFromServer().then(token => token);

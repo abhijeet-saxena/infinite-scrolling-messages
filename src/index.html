@@ -11,9 +11,10 @@
       type="image/x-icon"
     />
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,500&display=swap"
       rel="stylesheet"
     />
+
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -55,7 +56,7 @@
       </svg>
       <span class="time">12:10</span>
     </div>
-    <div class="header">
+    <header class="header">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -66,11 +67,11 @@
       </svg>
 
       <h2>Messages</h2>
-    </div>
+    </header>
 
-    <div class="content">
-      <div class="card-wrapper"></div>
-      <div id="loader">
+    <main>
+      <section class="card-wrapper"></section>
+      <section id="loader">
         <svg
           class="spinner"
           width="32px"
@@ -89,8 +90,8 @@
             r="30"
           ></circle>
         </svg>
-      </div>
-    </div>
+      </section>
+    </main>
 
     <!-- This is a snackbar that allows to UNDO a dismissed message -->
     <div class="snackbar">
@@ -100,5 +101,5 @@
       </span>
     </div>
   </body>
-  <script src="./index.js"></script>
+  <script defer src="./index.js"></script>
 </html>

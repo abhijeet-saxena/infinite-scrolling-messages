@@ -1,6 +1,12 @@
 export const setTimeInStatusBar = element => {
-  const hours = new Date().getHours();
-  const minutes = new Date().getMinutes();
+  const hours = new Date()
+    .getHours()
+    .toString()
+    .padStart(2, "0");
+  const minutes = new Date()
+    .getMinutes()
+    .toString()
+    .padStart(2, "0");
   document.querySelector(".time").innerHTML = `${hours}:${minutes}`;
 };
 
@@ -25,7 +31,7 @@ export const generateMessageCardsHTML = messageList => {
     } = messageList[i];
 
     cardsFragment += `
-    <div class="card" id="${id}">
+    <article class="card" id="${id}">
       <div class="lead">
         <img class="avatar" width="40" alt="${name} Avatar" height="40" src="https://message-list.appspot.com${photoUrl}"/>      
         <div class="author-data">
@@ -33,10 +39,10 @@ export const generateMessageCardsHTML = messageList => {
           <span> ${getRandomTimestamp()} </span>
         </div>
       </div>
-      <div class="message">
+      <p class="message">
       ${content.length < 200 ? content : `${content.slice(0, 200)}...`}
-      </div>
-    </div>
+      </p>
+    </article>
     `;
   }
 
