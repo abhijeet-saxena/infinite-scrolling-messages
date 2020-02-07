@@ -18,7 +18,7 @@ let snackbarTimerID = null;
 
 // This all is needed for infinite scrolling
 const options = {
-  root: null,
+  root: document.querySelector("main"),
   rootMargin: "400px 0px", // Trigger even before last element enters screen
   threshold: 0
 };
