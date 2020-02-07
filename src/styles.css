@@ -341,6 +341,7 @@ main {
 }
 
 .snackbar .action {
+  background: #323232;
   color: var(--secondary-color);
   cursor: pointer;
   font-weight: bold;

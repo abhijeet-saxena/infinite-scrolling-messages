@@ -59,7 +59,7 @@ wrapper.addEventListener(
     anchorX = event.changedTouches[0].clientX;
     anchorY = event.changedTouches[0].clientY;
   },
-  false
+  { passive: true }
 );
 
 // Detect Touch Move — Animate the card
@@ -84,7 +84,7 @@ wrapper.addEventListener(
       clicked_card.style.transform = "translateX(0px)";
     }
   },
-  false
+  { passive: true }
 );
 
 // Detect Touch End — Complete transition
@@ -121,7 +121,7 @@ wrapper.addEventListener(
       clicked_card.style.transform = "translateX(0px)";
     }
   },
-  false
+  { passive: true }
 );
 
 // Event Handler to dismiss in Desktop view
