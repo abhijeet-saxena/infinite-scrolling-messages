@@ -304,7 +304,6 @@ main {
   -webkit-box-shadow: 0 0 3px 0px #323232;
   box-shadow: 0 0 3px 0px #323232;
   pointer-events: none;
-
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -317,7 +316,7 @@ main {
   padding: 0 1rem;
 
   position: fixed;
-  bottom: -10px;
+  bottom: -50px;
   left: 50%;
   -webkit-transition: all 250ms ease-in-out;
   -o-transition: all 250ms ease-in-out;
@@ -342,7 +341,10 @@ main {
 
 .snackbar .action {
   background: #323232;
-  padding: 0.75rem 1rem;
+  width: 5rem;
+  height: 100%;
+  border: none;
+  outline: none;
   color: var(--secondary-color);
   cursor: pointer;
   font-weight: bold;
@@ -353,7 +355,7 @@ main {
 
 .snackbar.show {
   opacity: 1;
-  bottom: 1rem;
+  bottom: 0;
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
