@@ -19,11 +19,11 @@ To run this project locally —
 
 # Mobile View
 
-<img src="./Mobile.gif" width="177" height="320">
+<img src="./demo/Mobile.gif" width="177" height="320">
 
 # Desktop View
 
-<img src="./Desktop.gif" >
+<img src="./demo/Desktop.gif" >
 
 ## Technologoes Used
 

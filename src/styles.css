@@ -346,6 +346,7 @@ main {
   border: none;
   outline: none;
   color: var(--secondary-color);
+  font-size: 1rem;
   cursor: pointer;
   font-weight: bold;
   letter-spacing: 1px;
