@@ -6,7 +6,7 @@ Visit — https://infinite-scrolling-message-app.firebaseapp.com/
 
 ## Project Setup
 
-This project is written in vanilla HTML, CSS and Javascript. Setup uses [Parcel](https://parceljs.org/) , [Babel](https://babeljs.io/) , [PostCSS](https://postcss.org/) and [Firebase](https://firebase.google.com/) for deployment.
+This project is written in vanilla HTML, CSS and Javascript. Setup uses [Parcel](https://parceljs.org/) , [Babel](https://babeljs.io/) , [PostCSS](https://postcss.org/) and [Firebase](https://firebase.google.com/) for hosting.
 
 To run this project locally —
 

@@ -100,7 +100,7 @@ const touchEndHandler = event => {
   if (displacementX > 100) {
     clicked_card.style.transform = "translateX(100vw)";
 
-    if (snackbarTimerID && lastDismissedCardID) {
+    if (snackbarTimerID && document.getElementById(lastDismissedCardID)) {
       wrapper.removeChild(document.getElementById(lastDismissedCardID));
       clearTimeout(snackbarTimerID);
     }
@@ -131,7 +131,7 @@ const handleDesktopDismiss = event => {
     const clicked_card = event.target.closest(".card");
     clicked_card.style.transform = "translateX(100vw)";
 
-    if (snackbarTimerID && lastDismissedCardID) {
+    if (snackbarTimerID && document.getElementById(lastDismissedCardID)) {
       wrapper.removeChild(document.getElementById(lastDismissedCardID));
       clearTimeout(snackbarTimerID);
     }
@@ -163,6 +163,8 @@ const undoActionHandler = () => {
   lastDismissedMessage.classList.remove("dismissed");
   lastDismissedMessage.style.transitionDuration = "";
   lastDismissedMessage.style.transform = "";
+
+  lastDismissedCardID = null;
 };
 
 // Event Listeners
