@@ -10,6 +10,7 @@ This project is written in vanilla HTML, CSS and Javascript. Setup uses [Parcel]
 
 To run this project locally —
 
+- Prerequisites - You need to have [Node.js](https://nodejs.org/en/download/) and [npm](https://docs.npmjs.com/) installed on your machine
 - Clone/Download this project
 - Navigate to the folder and Run the command `npm i`
 - To run the Dev Server, run `npm run serve` this will spin up a local dev server on [localhost:1234](localhost:1234) with HMR enabled
