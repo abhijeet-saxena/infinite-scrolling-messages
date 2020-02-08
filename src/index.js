@@ -12,11 +12,14 @@ let token = "";
 const loader = document.getElementById("loader");
 const wrapper = document.querySelector(".card-wrapper");
 const snackbar = document.querySelector(".snackbar");
+const undoButton = document.querySelector(".action");
 
+let anchorX = 0; // Used to store the startX of touch point
+let anchorY = 0; // Used to store the startY of touch point
 let lastDismissedCardID = null;
 let snackbarTimerID = null;
 
-// This all is needed for infinite scrolling
+// This is needed for infinite scrolling functionality
 const options = {
   root: document.querySelector("main"),
   rootMargin: "400px 0px", // Trigger even before last element enters screen
@@ -43,30 +46,27 @@ const getMessagesFromServer = () => {
     .then(res => {
       wrapper.innerHTML += generateMessageCardsHTML(res.messages);
 
-      // Attach observer for the first time load only
+      // Activate observer for the first time load only
       if (!token) observer.observe(loader);
       return res.pageToken;
     });
 };
 
-let anchorX = 0; // Used to store the startX of touch point
-let anchorY = 0; // Used to store the startY of touch point
+// APP INITIAIZATION
+getMessagesFromServer().then(data => {
+  token = data;
+});
 
 // Detect Touch Start — Set starting anchor points
-wrapper.addEventListener(
-  "touchstart",
-  event => {
-    anchorX = event.changedTouches[0].clientX;
-    anchorY = event.changedTouches[0].clientY;
-  },
-  { passive: true }
-);
+const touchStartHandler = event => {
+  anchorX = event.changedTouches[0].clientX;
+  anchorY = event.changedTouches[0].clientY;
+};
 
 // Detect Touch Move — Animate the card
-wrapper.addEventListener(
-  "touchmove",
-  event => {
-    const clicked_card = event.target.closest(".card");
+const touchMoveHandler = event => {
+  const clicked_card = event.target.closest(".card");
+  if (clicked_card) {
     const displacementX = event.changedTouches[0].clientX - anchorX;
     const displacementY = event.changedTouches[0].clientY - anchorY;
 
@@ -83,94 +83,97 @@ wrapper.addEventListener(
       // Swiped in left direction — reset card position to left edge
       clicked_card.style.transform = "translateX(0px)";
     }
-  },
-  { passive: true }
-);
+  }
+};
 
 // Detect Touch End — Complete transition
-wrapper.addEventListener(
-  "touchend",
-  event => {
+const touchEndHandler = event => {
+  const clicked_card = event.target.closest(".card");
+  clicked_card.classList.remove("dismissing");
+
+  // Set transition duration to 200ms for smooth dismissal transition
+  clicked_card.style.transitionDuration = "200ms";
+
+  const displacementX = event.changedTouches[0].clientX - anchorX;
+
+  // User must have swiped atleast 100px to prevent accidental swipes
+  if (displacementX > 100) {
+    clicked_card.style.transform = "translateX(100vw)";
+
+    if (snackbarTimerID && lastDismissedCardID) {
+      wrapper.removeChild(document.getElementById(lastDismissedCardID));
+      clearTimeout(snackbarTimerID);
+    }
+
+    // Hide the card after swiping is complete and trigger snackbar
+    setTimeout(() => {
+      clicked_card.classList.add("dismissed");
+      lastDismissedCardID = event.target.closest(".card").id;
+    }, 200);
+
+    snackbar.classList.add("show");
+
+    // Auto dismiss snackbar after 3 seconds & remove element form DOM
+    snackbarTimerID = setTimeout(() => {
+      snackbar.classList.remove("show");
+      wrapper.removeChild(document.getElementById(lastDismissedCardID));
+      lastDismissedCardID = null;
+    }, 3000);
+  } else {
+    // Reset card position to left edge
+    clicked_card.style.transform = "translateX(0px)";
+  }
+};
+
+// Handle dismiss in Desktop view
+const handleDesktopDismiss = event => {
+  if (event.target.classList.contains("dismiss")) {
     const clicked_card = event.target.closest(".card");
-    clicked_card.classList.remove("dismissing");
+    clicked_card.style.transform = "translateX(100vw)";
 
-    // Set transition duration to 200ms for smooth dismissal transition
-    clicked_card.style.transitionDuration = "200ms";
-
-    const displacementX = event.changedTouches[0].clientX - anchorX;
-
-    // User must have swiped atleast 100px to prevent accidental swipes
-    if (displacementX > 100) {
-      clicked_card.style.transform = "translateX(100vw)";
-
-      // Hide the card after swiping is complete and trigger snackbar
-      setTimeout(() => {
-        clicked_card.classList.add("dismissed");
-        lastDismissedCardID = clicked_card.id;
-        snackbar.classList.add("show");
-      }, 200);
-
-      // Auto dismiss snackbar after 3 seconds
-      snackbarTimerID = setTimeout(() => {
-        snackbar.classList.remove("show");
-        wrapper.removeChild(clicked_card);
-        lastDismissedCardID = null;
-      }, 3000);
-    } else {
-      // Swiped in left direction — reset card position to left edge
-      clicked_card.style.transform = "translateX(0px)";
+    if (snackbarTimerID && lastDismissedCardID) {
+      wrapper.removeChild(document.getElementById(lastDismissedCardID));
+      clearTimeout(snackbarTimerID);
     }
-  },
-  { passive: true }
-);
 
-// Event Handler to dismiss in Desktop view
-wrapper.addEventListener(
-  "click",
-  event => {
-    if (event.target.classList.contains("dismiss")) {
-      const clicked_card = event.target.closest(".card");
-      clicked_card.style.transform = "translateX(100vw)";
+    // Hide the card after swiping is complete and trigger snackbar
+    setTimeout(() => {
+      clicked_card.classList.add("dismissed");
+      lastDismissedCardID = event.target.closest(".card").id;
+    }, 200);
 
-      // Hide the card after swiping is complete and trigger snackbar
-      setTimeout(() => {
-        clicked_card.classList.add("dismissed");
-        lastDismissedCardID = clicked_card.id;
-        snackbar.classList.add("show");
-      }, 200);
+    snackbar.classList.add("show");
 
-      // Auto dismiss snackbar after 3 seconds
-      snackbarTimerID = setTimeout(() => {
-        snackbar.classList.remove("show");
-        wrapper.removeChild(clicked_card);
-        lastDismissedCardID = null;
-      }, 3000);
-    }
-  },
-  false
-);
+    // Auto dismiss snackbar after 3 seconds & remove element form DOM
+    snackbarTimerID = setTimeout(() => {
+      snackbar.classList.remove("show");
+      wrapper.removeChild(document.getElementById(lastDismissedCardID));
+      lastDismissedCardID = null;
+    }, 3000);
+  }
+};
 
 // Handle Undo click
-document.querySelector(".action").addEventListener(
-  "click",
-  () => {
-    snackbar.classList.remove("show");
+const undoActionHandler = () => {
+  snackbar.classList.remove("show");
+  if (snackbarTimerID) clearTimeout(snackbarTimerID);
+  const lastDismissedMessage = document.getElementById(lastDismissedCardID);
 
-    if (snackbarTimerID) clearTimeout(snackbarTimerID);
+  // Bring back dismissed card in viewport
+  lastDismissedMessage.classList.remove("dismissed");
+  lastDismissedMessage.style.transitionDuration = "";
+  lastDismissedMessage.style.transform = "";
+};
 
-    if (lastDismissedCardID) {
-      const lastDismisseddMessage = document.getElementById(
-        lastDismissedCardID
-      );
-
-      //Bring back dismissed card in viewport
-      lastDismisseddMessage.classList.remove("dismissed");
-      lastDismisseddMessage.style.transitionDuration = "";
-      lastDismisseddMessage.style.transform = "";
-    }
-  },
-  false
-);
-
-// APP INITIAIZATION
-getMessagesFromServer().then(token => token);
+// Event Listeners
+wrapper.addEventListener("touchstart", event => touchStartHandler(event), {
+  passive: true
+});
+wrapper.addEventListener("touchmove", event => touchMoveHandler(event), {
+  passive: true
+});
+wrapper.addEventListener("touchend", event => touchEndHandler(event), {
+  passive: true
+});
+wrapper.addEventListener("click", event => handleDesktopDismiss(event), false);
+undoButton.addEventListener("click", () => undoActionHandler(), false);
