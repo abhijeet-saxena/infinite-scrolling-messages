@@ -159,12 +159,14 @@ const undoActionHandler = () => {
   if (snackbarTimerID) clearTimeout(snackbarTimerID);
   const lastDismissedMessage = document.getElementById(lastDismissedCardID);
 
-  // Bring back dismissed card in viewport
-  lastDismissedMessage.classList.remove("dismissed");
-  lastDismissedMessage.style.transitionDuration = "";
-  lastDismissedMessage.style.transform = "";
+  if (lastDismissedCardID) {
+    // Bring back dismissed card in viewport
+    lastDismissedMessage.classList.remove("dismissed");
+    lastDismissedMessage.style.transitionDuration = "";
+    lastDismissedMessage.style.transform = "";
 
-  lastDismissedCardID = null;
+    lastDismissedCardID = null;
+  }
 };
 
 // Event Listeners

@@ -118,12 +118,14 @@ main {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
     0 1px 3px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 3px 0px rgba(0, 0, 0, 0.1);
-  -webkit-transition-duration: 200ms;
-  -o-transition-duration: 200ms;
-  transition-duration: 200ms;
-  -webkit-transition-timing-function: linear;
-  -o-transition-timing-function: linear;
-  transition-timing-function: linear;
+  -webkit-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+  -webkit-transition-property: opacity, -webkit-transform;
+  transition-property: opacity, -webkit-transform;
+  -o-transition-property: opacity, transform;
+  transition-property: opacity, transform;
+  transition-property: opacity, transform, -webkit-transform;
 }
 
 .card .lead {
