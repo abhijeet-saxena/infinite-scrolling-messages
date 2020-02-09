@@ -4,7 +4,6 @@
 *::after {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
@@ -16,19 +15,17 @@
   --secondary-color: #6cdd18;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 /* Top Status bar styles */
 .status {
   height: 24px;
   background: var(--primary-color-dark);
   color: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
   justify-content: flex-end;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
 }
 
@@ -44,19 +41,14 @@
 /* Header Styles */
 header {
   height: 56px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 0 1rem;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   background: var(--primary-color-light);
   color: #f7f5fb;
 
   position: relative;
   z-index: 1;
-  -webkit-box-shadow: 0 7px 5px -5px rgba(0, 0, 0, 0.3);
   box-shadow: 0 7px 5px -5px rgba(0, 0, 0, 0.3);
 }
 
@@ -80,18 +72,9 @@ main {
 }
 
 .card-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   padding: 1rem;
   width: 100vw;
@@ -103,35 +86,20 @@ main {
 .card {
   padding: 1rem;
   background: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   width: calc(100vw - 2rem);
   max-width: 500px;
   pointer-events: auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   border-radius: 3px;
   margin-bottom: 0.5rem;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
-    0 1px 3px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 1px 3px 0px rgba(0, 0, 0, 0.1);
-  -webkit-transition: all 200ms ease-in-out;
-  -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
-  -webkit-transition-property: opacity, -webkit-transform;
-  transition-property: opacity, -webkit-transform;
-  -o-transition-property: opacity, transform;
   transition-property: opacity, transform;
-  transition-property: opacity, transform, -webkit-transform;
 }
 
 .card .lead {
   margin-bottom: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
@@ -162,21 +130,11 @@ main {
 .author-data {
   height: 40px;
   width: 100%;
-  -ms-flex-preferred-size: fit-content;
   flex-basis: fit-content;
   position: relative;
 
-  display: -webkit-box;
-
-  display: -ms-flexbox;
-
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -227,55 +185,22 @@ main {
 }
 
 #loader.active .spinner {
-  -webkit-animation: rotator 1.4s linear infinite;
   animation: rotator 1.4s linear infinite;
 }
 
 #loader.active .path {
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
-  -webkit-transform-origin: center;
-  -ms-transform-origin: center;
   transform-origin: center;
-  -webkit-animation: dash 1.4s ease-in-out infinite;
   animation: dash 1.4s ease-in-out infinite;
-}
-
-@-webkit-keyframes rotator {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
-  }
 }
 
 @keyframes rotator {
   0% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(270deg);
     transform: rotate(270deg);
-  }
-}
-
-@-webkit-keyframes dash {
-  0% {
-    stroke-dashoffset: 187;
-  }
-  50% {
-    stroke-dashoffset: 46.75;
-    -webkit-transform: rotate(135deg);
-    transform: rotate(135deg);
-  }
-  100% {
-    stroke-dashoffset: 187;
-    -webkit-transform: rotate(450deg);
-    transform: rotate(450deg);
   }
 }
 
@@ -285,12 +210,10 @@ main {
   }
   50% {
     stroke-dashoffset: 46.75;
-    -webkit-transform: rotate(135deg);
     transform: rotate(135deg);
   }
   100% {
     stroke-dashoffset: 187;
-    -webkit-transform: rotate(450deg);
     transform: rotate(450deg);
   }
 }
@@ -301,33 +224,18 @@ main {
   height: 48px;
   background: #323232;
   color: #f6f6f6;
-  -webkit-box-shadow: 0 0 3px 0px #323232;
   box-shadow: 0 0 3px 0px #323232;
   pointer-events: none;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 0 1rem;
 
   position: fixed;
   bottom: -50px;
   left: 50%;
-  -webkit-transition: all 250ms ease-in-out;
-  -o-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
-  -webkit-transition-property: opacity, bottom, -webkit-transform;
-  transition-property: opacity, bottom, -webkit-transform;
-  -o-transition-property: transform, opacity, bottom;
   transition-property: transform, opacity, bottom;
-  transition-property: transform, opacity, bottom, -webkit-transform;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   opacity: 0;
   font-weight: 100;
@@ -357,26 +265,15 @@ main {
 .snackbar.show {
   opacity: 1;
   bottom: 0;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
   transform: translateX(-50%);
 }
 
 /* Desktop and Tablet Responsiveness */
 @media (min-width: 768px) {
   .card-wrapper {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
     padding: 1rem;
     margin: 0 auto;
