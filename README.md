@@ -31,4 +31,6 @@ To run this project locally —
 
 - Messages API to mock content - https://message-list.appspot.com/messages ([See API Docs](https://message-list.appspot.com/))
 
+- All designs inspired by [Material Design](https://material.io/design/)
+
 Made with ️❤︎ by **[Abhijeet Saxena](https://itsrockyy.github.io/ "Abhijeet Saxena")**

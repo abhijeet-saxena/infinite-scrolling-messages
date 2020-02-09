@@ -56,7 +56,8 @@ header svg {
   margin-right: 2rem;
 }
 
-header h2 {
+header h1 {
+  font-size: 1.5em;
   font-weight: normal;
 }
 
@@ -98,7 +99,7 @@ main {
   transition-property: opacity, transform;
 }
 
-.card .lead {
+.lead {
   margin-bottom: 1rem;
   display: flex;
 }
@@ -120,7 +121,7 @@ main {
   width: 50px;
   height: 50px;
   background: white;
-  background-image: url(noimage.png);
+  background-image: url(noimage.svg);
   background-repeat: no-repeat;
   background-position: 0px 0px;
   z-index: 1;
@@ -154,7 +155,7 @@ main {
   display: none;
 }
 
-.card .message {
+.message {
   line-height: 1.25rem;
   font-weight: 100;
   font-size: 0.9rem;
@@ -185,6 +186,7 @@ main {
 }
 
 #loader.active .spinner {
+  will-change: transform;
   animation: rotator 1.4s linear infinite;
 }
 

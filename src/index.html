@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="status">
+    <div class="status" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="18"
@@ -67,7 +67,7 @@
       </svg>
       <span class="time">12:10</span>
     </div>
-    <header class="header">
+    <header role="header">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -77,12 +77,12 @@
         <path fill="white" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
       </svg>
 
-      <h2>Messages</h2>
+      <h1>Messages</h1>
     </header>
 
-    <main>
+    <main role="main">
       <section class="card-wrapper"></section>
-      <section id="loader">
+      <section id="loader" aria-hidden="true" class="active">
         <svg
           class="spinner"
           width="32px"
@@ -107,7 +107,7 @@
     <!-- This is a snackbar that allows to UNDO a dismissed message -->
     <div class="snackbar">
       Message Dismissed
-      <button type="button" class="action">
+      <button aria-label="Undo last action" type="button" class="action">
         UNDO
       </button>
     </div>

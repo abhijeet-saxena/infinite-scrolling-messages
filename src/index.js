@@ -48,6 +48,7 @@ const getMessagesFromAPI = () => {
 
 getMessagesFromAPI().then(data => {
   token = data;
+  loader.classList.remove("active");
 });
 
 const touchStartHandler = event => {
