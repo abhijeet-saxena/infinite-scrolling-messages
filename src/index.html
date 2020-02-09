@@ -25,11 +25,11 @@
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
       rel="stylesheet"
     />
-    <link rel="pre-connect" href="https://message-list.appspot.com" />
+    <link rel="preconnect" href="https://message-list.appspot.com" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="status" aria-hidden="true">
+    <div class="status" role="toolbar" aria-hidden="true">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="18"
@@ -67,7 +67,7 @@
       </svg>
       <span class="time">12:10</span>
     </div>
-    <header role="header">
+    <header role="heading">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -105,7 +105,7 @@
     </main>
 
     <!-- This is a snackbar that allows to UNDO a dismissed message -->
-    <div class="snackbar">
+    <div class="snackbar" role="alert">
       Message Dismissed
       <button aria-label="Undo last action" type="button" class="action">
         UNDO
