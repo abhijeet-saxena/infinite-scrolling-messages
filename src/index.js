@@ -52,8 +52,11 @@ getMessagesFromAPI().then(data => {
   loader.classList.remove("active");
 });
 
+let clicked_card = null;
+
 const swipeStartHandler = event => {
   swipeStarted = true;
+  clicked_card = event.target.closest(".card");
   anchorX =
     event.type === "mousedown"
       ? event.clientX
@@ -66,7 +69,6 @@ const swipeStartHandler = event => {
 
 const swipeMoveHandler = event => {
   if (swipeStarted) {
-    const clicked_card = event.target.closest(".card");
     const { clientX, clientY } =
       event.type === "mousemove" ? event : event.changedTouches[0];
     if (clicked_card) {
@@ -75,7 +77,7 @@ const swipeMoveHandler = event => {
       clicked_card.style.transitionDuration = "0ms";
 
       // Swiped in right direction — add transition and translateX card by the displacementX
-      if (displacementX > 0 && Math.abs(displacementY) < 50) {
+      if (displacementX > 0 && Math.abs(displacementY) < 100) {
         if (!clicked_card.classList.contains("dismissing")) {
           clicked_card.closest(".card").classList.add("dismissing");
         }
@@ -89,7 +91,12 @@ const swipeMoveHandler = event => {
 
 const swipeEndHandler = event => {
   if (swipeStarted) {
-    const clicked_card = event.target.closest(".card");
+    if (clicked_card.id !== event.target.closest(".card").id) {
+      clicked_card.classList.remove("dismissing");
+      clicked_card.style.transform = "translateX(0px)";
+      swipeStarted = false;
+      return;
+    }
     clicked_card.classList.remove("dismissing");
     clicked_card.style.transitionDuration = "200ms";
 

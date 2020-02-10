@@ -285,6 +285,7 @@ main {
 
   .card {
     min-width: 600px;
+    user-select: none;
   }
 
   .author-data svg {
