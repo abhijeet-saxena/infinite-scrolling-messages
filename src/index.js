@@ -15,6 +15,7 @@ const undoButton = document.querySelector(".action");
 // Used for swipe functionality
 let anchorX = 0;
 let anchorY = 0;
+let swipeStarted = false;
 let lastDismissedCardID = null;
 let snackbarTimerID = null;
 
@@ -51,58 +52,75 @@ getMessagesFromAPI().then(data => {
   loader.classList.remove("active");
 });
 
-const touchStartHandler = event => {
-  anchorX = event.changedTouches[0].clientX;
-  anchorY = event.changedTouches[0].clientY;
+const swipeStartHandler = event => {
+  swipeStarted = true;
+  anchorX =
+    event.type === "mousedown"
+      ? event.clientX
+      : event.changedTouches[0].clientX;
+  anchorY =
+    event.type === "mousedown"
+      ? event.clientY
+      : event.changedTouches[0].clientY;
 };
 
-const touchMoveHandler = event => {
-  const clicked_card = event.target.closest(".card");
-  if (clicked_card) {
-    const displacementX = event.changedTouches[0].clientX - anchorX;
-    const displacementY = event.changedTouches[0].clientY - anchorY;
-    clicked_card.style.transitionDuration = "0ms";
+const swipeMoveHandler = event => {
+  if (swipeStarted) {
+    const clicked_card = event.target.closest(".card");
+    const { clientX, clientY } =
+      event.type === "mousemove" ? event : event.changedTouches[0];
+    if (clicked_card) {
+      const displacementX = clientX - anchorX;
+      const displacementY = clientY - anchorY;
+      clicked_card.style.transitionDuration = "0ms";
 
-    // Swiped in right direction — add transition and translateX card by the displacementX
-    if (displacementX > 0 && Math.abs(displacementY) < 50) {
-      if (!clicked_card.classList.contains("dismissing")) {
-        clicked_card.closest(".card").classList.add("dismissing");
+      // Swiped in right direction — add transition and translateX card by the displacementX
+      if (displacementX > 0 && Math.abs(displacementY) < 50) {
+        if (!clicked_card.classList.contains("dismissing")) {
+          clicked_card.closest(".card").classList.add("dismissing");
+        }
+        clicked_card.style.transform = `translateX(${displacementX}px)`;
+      } else {
+        clicked_card.style.transform = "translateX(0px)";
       }
-      clicked_card.style.transform = `translateX(${displacementX}px)`;
-    } else {
-      clicked_card.style.transform = "translateX(0px)";
     }
   }
 };
 
-const touchEndHandler = event => {
-  const clicked_card = event.target.closest(".card");
-  clicked_card.classList.remove("dismissing");
-  clicked_card.style.transitionDuration = "200ms";
+const swipeEndHandler = event => {
+  if (swipeStarted) {
+    const clicked_card = event.target.closest(".card");
+    clicked_card.classList.remove("dismissing");
+    clicked_card.style.transitionDuration = "200ms";
 
-  const displacementX = event.changedTouches[0].clientX - anchorX;
-  if (displacementX > 100) {
-    clicked_card.style.transform = "translateX(100vw)";
+    const { clientX } =
+      event.type === "mouseup" ? event : event.changedTouches[0];
 
-    if (snackbarTimerID && document.getElementById(lastDismissedCardID)) {
-      wrapper.removeChild(document.getElementById(lastDismissedCardID));
-      clearTimeout(snackbarTimerID);
+    const displacementX = clientX - anchorX;
+    if (displacementX > 100) {
+      clicked_card.style.transform = "translateX(100vw)";
+
+      if (snackbarTimerID && document.getElementById(lastDismissedCardID)) {
+        wrapper.removeChild(document.getElementById(lastDismissedCardID));
+        clearTimeout(snackbarTimerID);
+      }
+
+      setTimeout(() => {
+        clicked_card.classList.add("dismissed");
+        lastDismissedCardID = event.target.closest(".card").id;
+      }, 200);
+
+      snackbar.classList.add("show");
+
+      snackbarTimerID = setTimeout(() => {
+        snackbar.classList.remove("show");
+        wrapper.removeChild(document.getElementById(lastDismissedCardID));
+        lastDismissedCardID = null;
+      }, 3000);
+    } else {
+      clicked_card.style.transform = "translateX(0px)";
     }
-
-    setTimeout(() => {
-      clicked_card.classList.add("dismissed");
-      lastDismissedCardID = event.target.closest(".card").id;
-    }, 200);
-
-    snackbar.classList.add("show");
-
-    snackbarTimerID = setTimeout(() => {
-      snackbar.classList.remove("show");
-      wrapper.removeChild(document.getElementById(lastDismissedCardID));
-      lastDismissedCardID = null;
-    }, 3000);
-  } else {
-    clicked_card.style.transform = "translateX(0px)";
+    swipeStarted = false;
   }
 };
 
@@ -145,14 +163,20 @@ const undoActionHandler = () => {
 };
 
 // Event Listeners
-wrapper.addEventListener("touchstart", event => touchStartHandler(event), {
+wrapper.addEventListener("mousedown", event => swipeStartHandler(event), false);
+wrapper.addEventListener("touchstart", event => swipeStartHandler(event), {
   passive: true
 });
-wrapper.addEventListener("touchmove", event => touchMoveHandler(event), {
+
+wrapper.addEventListener("mousemove", event => swipeMoveHandler(event), false);
+wrapper.addEventListener("touchmove", event => swipeMoveHandler(event), {
   passive: true
 });
-wrapper.addEventListener("touchend", event => touchEndHandler(event), {
+
+wrapper.addEventListener("mouseup", event => swipeEndHandler(event), false);
+wrapper.addEventListener("touchend", event => swipeEndHandler(event), {
   passive: true
 });
+
 wrapper.addEventListener("click", event => handleDesktopDismiss(event), false);
 undoButton.addEventListener("click", () => undoActionHandler(), false);

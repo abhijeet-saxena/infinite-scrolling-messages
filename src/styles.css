@@ -111,6 +111,7 @@ main {
   margin-right: 1rem;
   position: relative;
   font-size: 0px;
+  pointer-events: none;
 }
 
 /* Fallback image if url not-found */
@@ -165,6 +166,7 @@ main {
 .card.dismissing {
   background: #f7f7f7;
   opacity: 0.6;
+  cursor: grabbing;
 }
 
 /* Card style after dismissed */
