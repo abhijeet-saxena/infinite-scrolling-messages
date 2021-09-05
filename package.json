@@ -11,11 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itsRockyy/infinite-scrolling-messages.git"
+    "url": "git+https://github.com/abhijeet-saxena/infinite-scrolling-messages.git"
   },
   "author": "Abhijeet Saxena",
   "license": "MIT",
-  "homepage": "https://github.com/itsRockyy/infinite-scrolling-messages#readme",
+  "homepage": "https://github.com/abhijeet-saxena/infinite-scrolling-messages#readme",
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/plugin-transform-runtime": "^7.8.3",

@@ -33,4 +33,4 @@ To run this project locally —
 
 - All designs inspired by [Material Design](https://material.io/design/)
 
-Made with ️❤︎ by **[Abhijeet Saxena](https://itsrockyy.github.io/ "Abhijeet Saxena")**
+Made with ️❤︎ by **[Abhijeet Saxena](https://abhijeetsaxena.in/ "Abhijeet Saxena")**
